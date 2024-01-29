@@ -1,0 +1,17 @@
+.postCard {
+  display: flex;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  margin-bottom: 10px;
+  margin-right: 40px;
+  padding: 0px 5px 5px 5px;
+
+  background-color: #4f81bd;
+  color: #ffffff;
+  border: 5px solid #385d8a;
+  font-weight: bold;
+}
