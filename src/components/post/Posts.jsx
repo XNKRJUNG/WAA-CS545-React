@@ -11,7 +11,13 @@ const Posts = props => {
     { id: 3, title: "Enjoy Life", author: "Jasmine" }
   ])
 
-  const { title } = props
+  const { title, handleSelectedPost } = props
+
+  const handlePostClick = post => {
+    if (handleSelectedPost) {
+      handleSelectedPost(post)
+    }
+  }
 
   if (title && postState.length > 0) {
     const updatedPosts = [...postState]
@@ -28,7 +34,7 @@ const Posts = props => {
   //   }
   // }, [title])
 
-  const post = postState.map(p => <Post id={p.id} title={p.title} author={p.author} key={p.id} />)
+  const post = postState.map(p => <Post id={p.id} title={p.title} author={p.author} key={p.id} onClick={() => handlePostClick(p)} />)
 
   return <div className="postCard">{post}</div>
 }
