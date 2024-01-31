@@ -1,22 +1,33 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Post from "./Post"
 import { useState } from "react"
 
 import "./post.css"
+import axios from "axios"
 
 const Posts = props => {
-  const [postState, setPostState] = useState([
-    { id: 1, title: "Happiness", author: "John" },
-    { id: 2, title: "MIU", author: "Dean" },
-    { id: 3, title: "Enjoy Life", author: "Jasmine" }
-  ])
+  const [postState, setPostState] = useState([])
 
-  const { title, handleSelectedPost } = props
+  const { title, handleSelectedPost, setter } = props
+
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/v1/posts")
+      setPostState(response.data)
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
 
   const handlePostClick = post => {
     if (handleSelectedPost) {
       handleSelectedPost(post)
     }
+    setter(() => fetchPosts)
   }
 
   if (title && postState.length > 0) {
@@ -34,7 +45,7 @@ const Posts = props => {
   //   }
   // }, [title])
 
-  const post = postState.map(p => <Post id={p.id} title={p.title} author={p.author} key={p.id} onClick={() => handlePostClick(p)} />)
+  const post = postState.map(p => <Post id={p.id} title={p.title} author={p.author} key={p.id} onClick={() => handlePostClick(p.id)} />)
 
   return <div className="postCard">{post}</div>
 }

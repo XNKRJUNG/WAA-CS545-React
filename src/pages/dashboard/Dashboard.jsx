@@ -5,10 +5,10 @@ import PostDetails from "../../components/post/PostDetails"
 const Dashboard = () => {
   const [inputValue, setinputValue] = useState("")
   const [title, setTitle] = useState("")
-  const [selectedPost, setSelectedPost] = useState({})
+  const [selectedPostId, setSelectedPostId] = useState("")
+  const [fetchPostsFn, setFetchPostsFn] = useState(null)
 
   const handleNameChange = event => {
-    // console.log(event.target.value)
     setinputValue(event.target.value)
   }
 
@@ -16,14 +16,13 @@ const Dashboard = () => {
     setTitle(inputValue)
   }
 
-  const handleSelectedPost = post => {
-    setSelectedPost(post)
+  const handleSelectedPost = postId => {
+    setSelectedPostId(postId)
   }
 
   return (
     <>
-      {/* <div>Dashboard</div> */}
-      <Posts title={title} handleSelectedPost={handleSelectedPost} />
+      <Posts title={title} handleSelectedPost={handleSelectedPost} setter={setFetchPostsFn} />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <input type="text" name="inputValue" value={inputValue} onChange={handleNameChange} style={{ width: "150px", marginBottom: "10px" }} />
         <button onClick={handleButtonSubmit} name="onSubmit" style={{ width: "100px" }}>
@@ -31,7 +30,7 @@ const Dashboard = () => {
         </button>
       </div>
       <div className="postDetailsCard">
-        <PostDetails title={selectedPost.title} author={selectedPost.author} id={selectedPost.id} description={"This is the content in the post..."} />
+        <PostDetails id={selectedPostId} description={"This is the content in the post..."} handler={fetchPostsFn} />
       </div>
     </>
   )
