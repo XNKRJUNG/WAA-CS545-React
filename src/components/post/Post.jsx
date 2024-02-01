@@ -1,5 +1,5 @@
 import React from "react"
-import "./post.css"
+import "./css/post.css"
 
 const Post = props => {
   const { id, title, author, onClick } = props

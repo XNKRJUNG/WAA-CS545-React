@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Posts from "../../components/post/Posts"
 import PostDetails from "../../components/post/PostDetails"
+import AddPost from "../../components/post/AddPost"
 
 const Dashboard = () => {
   const [inputValue, setinputValue] = useState("")
@@ -31,6 +32,9 @@ const Dashboard = () => {
       </div>
       <div className="postDetailsCard">
         <PostDetails id={selectedPostId} description={"This is the content in the post..."} handler={fetchPostsFn} />
+      </div>
+      <div className="addPostCard">
+        <AddPost handler={fetchPostsFn} />
       </div>
     </>
   )

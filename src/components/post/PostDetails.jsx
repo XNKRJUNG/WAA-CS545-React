@@ -16,11 +16,10 @@ const PostDetails = props => {
   }
 
   const deletePost = postId => {
-    console.log("Delete Id", postId)
     axios
       .delete(`http://localhost:8080/api/v1/posts/${postId}`)
       .then(response => {
-        console.log(response)
+        console.log(response.data)
         props.handler()
       })
       .catch(error => {
@@ -29,7 +28,9 @@ const PostDetails = props => {
   }
 
   useEffect(() => {
-    fetchPost(props.id)
+    if (props.id) {
+      fetchPost(props.id)
+    }
   }, [props.id])
 
   return (

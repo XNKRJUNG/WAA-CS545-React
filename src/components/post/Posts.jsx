@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import Post from "./Post"
 import { useState } from "react"
 
-import "./post.css"
+import "./css/post.css"
 import axios from "axios"
 
 const Posts = props => {
@@ -21,6 +21,7 @@ const Posts = props => {
 
   useEffect(() => {
     fetchPosts()
+    setter(() => fetchPosts)
   }, [])
 
   const handlePostClick = post => {
