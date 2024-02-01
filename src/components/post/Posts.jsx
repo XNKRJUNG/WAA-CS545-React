@@ -7,6 +7,7 @@ import axios from "axios"
 
 const Posts = props => {
   const [postState, setPostState] = useState([])
+  // console.log(postState)
 
   const { title, handleSelectedPost, setter } = props
 
