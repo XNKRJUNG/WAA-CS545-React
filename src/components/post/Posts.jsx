@@ -1,15 +1,15 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import Post from "./Post"
-import { useState } from "react"
+import axios from "axios"
+import PostContext from "../context/PostContext"
 
 import "./css/post.css"
-import axios from "axios"
 
 const Posts = props => {
+  const { selectedPostId, setSelectedPostId } = useContext(PostContext)
   const [postState, setPostState] = useState([])
-  // console.log(postState)
 
-  const { title, handleSelectedPost, setter } = props
+  const { setter } = props
 
   const fetchPosts = async () => {
     try {
@@ -26,26 +26,15 @@ const Posts = props => {
   }, [])
 
   const handlePostClick = post => {
-    if (handleSelectedPost) {
-      handleSelectedPost(post)
-    }
+    setSelectedPostId(post)
     setter(() => fetchPosts)
   }
 
-  if (title && postState.length > 0) {
+  if (props.title && postState.length > 0) {
     const updatedPosts = [...postState]
-    updatedPosts[0].title = title
+    updatedPosts[0].title = props.title
     // Note: We're not using setPostState here, as it's not necessary in this case
   }
-
-  // useEffect(() => {
-  //   // Update the title of the first post with the received name
-  //   if (title && postState.length > 0) {
-  //     const updatedPosts = [...postState]
-  //     updatedPosts[0].title = title
-  //     setPostState(updatedPosts)
-  //   }
-  // }, [title])
 
   const post = postState.map(p => <Post id={p.id} title={p.title} author={p.author} key={p.id} onClick={() => handlePostClick(p.id)} />)
 
