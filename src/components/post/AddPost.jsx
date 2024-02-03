@@ -1,53 +1,45 @@
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 
 const AddPost = props => {
   const { handler } = props
-  const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
-  const [content, setContent] = useState("")
+  const titleRef = useRef(null)
+  const authorRef = useRef(null)
+  const contentRef = useRef(null)
 
   const handleFormOnSubmit = async event => {
     event.preventDefault()
 
     try {
       const response = await axios.post("http://localhost:8080/api/v1/posts/user/1", {
-        title,
-        author,
-        content
+        title: titleRef.current.value,
+        author: authorRef.current.value,
+        content: contentRef.current.value
       })
+
       const newPost = response.data
       console.log(newPost)
-      setTitle("")
-      setAuthor("")
-      setContent("")
+
+      // Clear input fields
+      titleRef.current.value = ""
+      authorRef.current.value = ""
+      contentRef.current.value = ""
+
       handler()
     } catch (error) {
       console.log(error.message)
     }
   }
 
-  const handleTitleOnChange = event => {
-    setTitle(event.target.value)
-  }
-
-  const handleAuthorOnChange = event => {
-    setAuthor(event.target.value)
-  }
-
-  const handleContentOnChange = event => {
-    setContent(event.target.value)
-  }
-
   return (
     <div>
       <form onSubmit={handleFormOnSubmit}>
         <label>Title:</label>
-        <input type="text" name="title" value={title} onChange={handleTitleOnChange} />
+        <input type="text" name="title" ref={titleRef} />
         <label>Author:</label>
-        <input type="text" name="author" value={author} onChange={handleAuthorOnChange} />
+        <input type="text" name="author" ref={authorRef} />
         <label>Content:</label>
-        <input type="text" name="content" value={content} onChange={handleContentOnChange} />
+        <input type="text" name="content" ref={contentRef} />
         <input type="submit" value="Submit" />
       </form>
     </div>
